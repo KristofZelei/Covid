@@ -1,0 +1,24 @@
+PODS:
+  - ClosureLayout (1.0.1)
+  - Fuse (1.2.0)
+  - IQKeyboardManagerSwift (6.4.2)
+
+DEPENDENCIES:
+  - ClosureLayout (~> 1.0.1)
+  - Fuse (~> 1.2.0)
+  - IQKeyboardManagerSwift (~> 6.4.0)
+
+SPEC REPOS:
+  trunk:
+    - ClosureLayout
+    - Fuse
+    - IQKeyboardManagerSwift
+
+SPEC CHECKSUMS:
+  ClosureLayout: 9160154785103536edd1f23c7a251b8e6f27dad0
+  Fuse: 287bd95a5c8dbfe6c41af519eaf48856aa1a28f6
+  IQKeyboardManagerSwift: 79a3ec200dfb41cb66a89b8575417b5378107c5d
+
+PODFILE CHECKSUM: f5f2c9b5b266ea6370591ff97fa4d6b141333417
+
+COCOAPODS: 1.9.1

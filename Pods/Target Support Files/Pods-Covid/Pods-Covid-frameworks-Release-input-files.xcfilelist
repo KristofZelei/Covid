@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-Covid/Pods-Covid-frameworks.sh
+${BUILT_PRODUCTS_DIR}/ClosureLayout/ClosureLayout.framework
+${BUILT_PRODUCTS_DIR}/Fuse/Fuse.framework
+${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework

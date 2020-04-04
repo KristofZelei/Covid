@@ -1,0 +1,6 @@
+framework module ClosureLayout {
+  umbrella header "ClosureLayout-umbrella.h"
+
+  export *
+  module * { export * }
+}
