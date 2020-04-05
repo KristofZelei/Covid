@@ -13,6 +13,7 @@ import Fuse
 protocol CovidStatListViewLogic: AnyObject {
     func startLoading()
     func showData(_ data: [CovidStatViewModel])
+    func showError()
 }
 
 class CovidStatListViewController: UIViewController {
@@ -20,6 +21,8 @@ class CovidStatListViewController: UIViewController {
     private enum Constants {
         static let navViewInset: CGFloat = 24
         static let topInset: CGFloat = 72
+        static let errorButtonTitle = "Try Again"
+        static let errorMessage = "Something went wrong! 🥴"
     }
     
     typealias SortOption = KeyPath<CountryStatViewModel, Int>
@@ -51,6 +54,22 @@ class CovidStatListViewController: UIViewController {
         return view
     }()
     
+    let errorView: UIView = {
+        let label = UILabel()
+        label.font = .roundedFont(ofSize: 20, weight: .semibold)
+        label.text = Constants.errorMessage
+        label.textColor = .accentColor
+        let button = UIButton()
+        button.setTitle(Constants.errorButtonTitle, for: .normal)
+        button.addTarget(self, action: #selector(tryAgainTapped), for: .touchUpInside)
+        button.titleLabel?.font = .roundedFont(ofSize: 16, weight: .medium)
+        button.setTitleColor(.covidGray, for: .normal)
+        let stackView = UIStackView(label, button)
+        stackView.spacing = 40
+        stackView.axis = .vertical
+        return stackView
+    }()
+    
     // MARK: - Initial Setup
     convenience init() {
         self.init(nibName: nil, bundle: .main)
@@ -63,6 +82,7 @@ class CovidStatListViewController: UIViewController {
         tableView.dataSource = self
         presenter.view = self
         addActivityIndicator()
+        addErrorView()
         addTableView()
         addNavigationView()
         registerToNotifications()
@@ -103,6 +123,15 @@ class CovidStatListViewController: UIViewController {
         }
     }
     
+    private func addErrorView() {
+        view.addSubview(errorView)
+        errorView.layout {
+            $0.centerX == view.centerXAnchor
+            $0.centerY == view.centerYAnchor
+        }
+        errorView.isHidden = true
+    }
+    
     private func registerToNotifications() {
         Theme.register(self, selector: #selector(setupColors))
         NotificationCenter.default.addObserver(self,
@@ -113,6 +142,10 @@ class CovidStatListViewController: UIViewController {
     
     // MARK: - Actions
     @objc func appDidBecomeActive() {
+        presenter.loadDataIfNeeded()
+    }
+    
+    @objc func tryAgainTapped() {
         presenter.loadData()
     }
     
@@ -123,6 +156,7 @@ class CovidStatListViewController: UIViewController {
         view.backgroundColor = .backgroundColor
         navigationView.backgroundColor = .backgroundColor
         searchBar.textColor = .accentColor
+        searchBar.cancelButton.setTitleColor(.accentColor, for: .normal)
     }
     
     private func search(text: String) {
@@ -148,17 +182,26 @@ class CovidStatListViewController: UIViewController {
 // MARK: - View Logic
 extension CovidStatListViewController: CovidStatListViewLogic {
     func startLoading() {
-        tableView.isHidden = true
-        activityIndicator.isHidden = false
         activityIndicator.startAnimating()
+        tableView.isHidden = true
+        errorView.isHidden = true
+        activityIndicator.isHidden = false
     }
 
     func showData(_ data: [CovidStatViewModel]) {
         viewModels = data
         activityIndicator.stopAnimating()
         activityIndicator.isHidden = true
+        errorView.isHidden = true
         tableView.isHidden = false
         tableView.reloadData()
+    }
+    
+    func showError() {
+        activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
+        tableView.isHidden = true
+        errorView.isHidden = false
     }
 }
 

@@ -10,6 +10,7 @@ import Foundation
 
 protocol CovidStatListPresenter {
     var view: CovidStatListViewLogic? { get set }
+    func loadDataIfNeeded()
     func loadData()
 }
 
@@ -21,17 +22,25 @@ class CovidStatListPresenterImpl: CovidStatListPresenter {
     private var dataSource: CovidStatsDataSource = CovidStatsRemoteDataSource()
     
     private var lastFetched: Date = .distantPast
+    
+    private var hoursSinceFetch: Double {
+        return Date().timeIntervalSince(lastFetched) / 60 / 60
+    }
 
-    var minFetchIntervalInHours: Double = (1/60)
+    var minFetchInterval: Double = 4
+    
+    func loadDataIfNeeded() {
+        guard hoursSinceFetch > minFetchInterval else { return }
+        loadData()
+    }
     
     func loadData() {
-        let elapsed = Date().timeIntervalSince(lastFetched)
-        let elapsedHours = elapsed / 60 / 60
-        guard elapsedHours > minFetchIntervalInHours else { return }
-        lastFetched = Date()
         view?.startLoading()
         dataSource.getCovidData { (response, error) in
-            guard let response = response else { return }
+            guard let response = response, error == nil else {
+                DispatchQueue.main.async { self.view?.showError() }
+                return
+            }
             var countries = [CountryStatViewModel]()
             for country in Country.allCases {
                 let records: [CovidRecord] = response.records.filter {
@@ -45,6 +54,7 @@ class CovidStatListPresenterImpl: CovidStatListPresenter {
             countries.sort { $0.active > $1.active }
             countries.prioritizeCurrentLocale()
             DispatchQueue.main.async {
+                self.lastFetched = Date()
                 self.view?.showData([world] + countries)
             }
         }

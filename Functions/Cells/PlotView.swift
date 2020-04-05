@@ -10,7 +10,9 @@ import UIKit
 
 class PlotView: UIView {
     private enum Constants {
-        static let lineWidthRatio: CGFloat = 1/6
+        static let lineWidthRatio: CGFloat = 1/8
+        static let firstSpacingToSumSpacing: CGFloat = 5/14
+        static let spacingToSumSpacing: CGFloat = 3/14
     }
     
     private var confirmed: Int = 0
@@ -22,6 +24,7 @@ class PlotView: UIView {
     
     private var cornerRadius: CGFloat = 0
     private var lineWidth: CGFloat = 0
+    private var firstSpacing: CGFloat = 0
     private var spacing: CGFloat = 0
     
     private var confirmedHeight: CGFloat = 0
@@ -43,8 +46,10 @@ class PlotView: UIView {
     }
     
     private func calculateDimensions() {
-        lineWidth = frame.width * Constants.lineWidthRatio
-        spacing = (frame.width - 4 * lineWidth) / 3
+        lineWidth = Constants.lineWidthRatio * frame.width
+        let sumSpacing = frame.width - 5 * lineWidth
+        firstSpacing = Constants.firstSpacingToSumSpacing * sumSpacing
+        spacing = Constants.spacingToSumSpacing * sumSpacing
         cornerRadius = lineWidth / 2
         confirmedHeight = frame.height
         recoveredHeight = heightPortion(of: frame.height, like: recovered, to: confirmed)
@@ -61,15 +66,41 @@ class PlotView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
+        createVerticalChart()
+        let offset = lineWidth + firstSpacing
         let heights = [confirmedHeight, recoveredHeight, deathsHeight, activeHeight]
         let colors: [UIColor] = [.covidPink, .covidGreen, .deathColor, .covidOrange]
         heights.indices.forEach {
             let rect = CGRect(
-                x: CGFloat($0) * (lineWidth + spacing),
+                x: offset + CGFloat($0) * (lineWidth + spacing),
                 y: frame.height - heights[$0],
                 width: lineWidth,
                 height: heights[$0]
             )
+            let path = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
+            colors[$0].setFill()
+            path.fill()
+        }
+    }
+    
+    func createVerticalChart() {        
+        let chartSpacing = lineWidth
+        let availableHeight = frame.height - 2 * chartSpacing
+        guard availableHeight > 3 * lineWidth else { return }
+        var heights = [deathsHeight, activeHeight, recoveredHeight]
+        var index = 0
+        while heights.sum > availableHeight {
+            let newHeight = max(heights[index] - 1, lineWidth)
+            heights[index] = newHeight
+            index += 1
+            index %= 3
+        }
+        
+        let colors: [UIColor] = [.deathColor, .covidOrange, .covidGreen]
+        
+        heights.indices.forEach {
+            let y = CGFloat($0) * (chartSpacing) + heights.sum(first: $0)
+            let rect = CGRect(x: 0, y: y, width: lineWidth, height: heights[$0])
             let path = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
             colors[$0].setFill()
             path.fill()

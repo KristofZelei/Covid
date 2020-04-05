@@ -57,7 +57,6 @@ class SearchBar: UIView {
     override var tintColor: UIColor? {
         didSet {
             textField.tintColor = tintColor
-            
         }
     }
     
@@ -80,7 +79,6 @@ class SearchBar: UIView {
     lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Cancel", for: .normal)
-        button.setTitleColor(.accentColor, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         return button
     }()
