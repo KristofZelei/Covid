@@ -32,6 +32,7 @@ private enum Constants {
 ```
 
 ## Implementation
+The following code snippets showcase Swifty solutions and explain some key principles of the implementation.
 ### Sorting with key paths
 A great example of [the power of keypaths](https://www.swiftbysundell.com/articles/the-power-of-key-paths-in-swift/) in Swift is when you want to dynamically change which attribute to use in a `sort(by:)` function.
 ```swift
