@@ -42,7 +42,6 @@ extension CovidRecord: Codable {
                 debugDescription: "Wrong date format."
             )
         }
-        
         lastUpdate = lastUpdateDate
     }
 }

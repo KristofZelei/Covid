@@ -95,9 +95,7 @@ class PlotView: UIView {
             index += 1
             index %= 3
         }
-        
         let colors: [UIColor] = [.deathColor, .covidOrange, .covidGreen]
-        
         heights.indices.forEach {
             let y = CGFloat($0) * (chartSpacing) + heights.sum(first: $0)
             let rect = CGRect(x: 0, y: y, width: lineWidth, height: heights[$0])

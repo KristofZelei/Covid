@@ -136,8 +136,8 @@ class CountryStatCell: UITableViewCell {
     }
     
     func configure(with vm: CountryStatViewModel) {
-        titleLabel.text = vm.country.name
-        flagView.image = vm.country.flag
+        titleLabel.text = vm.country
+        flagView.image = vm.flag
         lastUpdatedLabel.text = vm.lastUpdated
         confirmedView.label.text = vm.confirmed.asString.numberFormatted
         confirmedView.imageView.image = Constants.confirmedIcon

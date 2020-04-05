@@ -17,5 +17,4 @@ extension String {
         }
         return result.reversed().joined(separator: " ")
     }
-    
 }

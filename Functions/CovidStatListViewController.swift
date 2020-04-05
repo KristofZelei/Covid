@@ -161,7 +161,7 @@ class CovidStatListViewController: UIViewController {
     
     private func search(text: String) {
         let countryStats = viewModels.compactMap { $0 as? CountryStatViewModel }
-        let search = fuse.search(text, in: countryStats.map { $0.country.name })
+        let search = fuse.search(text, in: countryStats.map { $0.country })
         searchResults = search.map { countryStats[$0.index] }
         tableView.reloadData()
     }

@@ -9,12 +9,14 @@
 import UIKit
 
 struct CountryStatViewModel: CovidStatViewModel {
-    var country: Country
+    var country: String
+    var flag: UIImage?
     var confirmed: Int
     var deaths: Int
     var recovered: Int
     var active: Int
     var lastUpdated: String
+    var regionCode: String
 }
 
 extension CountryStatViewModel {
@@ -31,12 +33,14 @@ extension CountryStatViewModel {
            lastUpdatedString = formatter.string(from: date)
         }
         self.init(
-            country: country,
+            country: country.name,
+            flag: country.flag,
             confirmed: sumConfirmed,
             deaths: sumDeaths,
             recovered: sumRecovered,
             active: sumActive,
-            lastUpdated: lastUpdatedString
+            lastUpdated: lastUpdatedString,
+            regionCode: country.regionCode
         )
     }
 }
@@ -61,7 +65,7 @@ extension Country {
 extension Array where Element == CountryStatViewModel {
     mutating func prioritizeCurrentLocale() {
         makeFirstIf {
-            $0.country.regionCode == Locale.current.regionCode
+            $0.regionCode == Locale.current.regionCode
         }
     }
 }
