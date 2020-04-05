@@ -10,7 +10,6 @@
 		08DCE4A9ABDC5C4C558B7D61 /* Pods_Covid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 714A5945196EB3E08002C5E5 /* Pods_Covid.framework */; };
 		C11484E02433E2E50032CA16 /* SumExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11484DF2433E2E50032CA16 /* SumExtensions.swift */; };
 		C1154B08243290D800B638FF /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1154B07243290D800B638FF /* Country.swift */; };
-		C13542A02438D7FD00E0E6F3 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C135429F2438D7FD00E0E6F3 /* Config.swift */; };
 		C13542A22438FD4E00E0E6F3 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13542A12438FD4E00E0E6F3 /* ArrayExtensions.swift */; };
 		C13542A42439008A00E0E6F3 /* Country+Locale.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13542A32439008A00E0E6F3 /* Country+Locale.swift */; };
 		C13A82C82437AFCC00857401 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A82C72437AFCC00857401 /* UIViewExtensions.swift */; };
@@ -63,7 +62,6 @@
 		7B607A1B6DECC9673912EF0A /* Pods-Covid.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Covid.release.xcconfig"; path = "Target Support Files/Pods-Covid/Pods-Covid.release.xcconfig"; sourceTree = "<group>"; };
 		C11484DF2433E2E50032CA16 /* SumExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SumExtensions.swift; sourceTree = "<group>"; };
 		C1154B07243290D800B638FF /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
-		C135429F2438D7FD00E0E6F3 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		C13542A12438FD4E00E0E6F3 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		C13542A32439008A00E0E6F3 /* Country+Locale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Country+Locale.swift"; sourceTree = "<group>"; };
 		C13A82C72437AFCC00857401 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
@@ -305,7 +303,6 @@
 				C13CDC702433D803001BA5F4 /* CovidStatsDataSource.swift */,
 				C190F3152431B79E006D04EA /* CovidStatsRemoteDataSource.swift */,
 				C13A82CB2438A43A00857401 /* CovidStatsMockDataSource.swift */,
-				C135429F2438D7FD00E0E6F3 /* Config.swift */,
 			);
 			path = "Data Source";
 			sourceTree = "<group>";
@@ -457,7 +454,6 @@
 				C1B01B0A2434A588002A9CBF /* Response.swift in Sources */,
 				C11484E02433E2E50032CA16 /* SumExtensions.swift in Sources */,
 				C190F31A2431BCA1006D04EA /* SearchTextField.swift in Sources */,
-				C13542A02438D7FD00E0E6F3 /* Config.swift in Sources */,
 				C13A82CC2438A43A00857401 /* CovidStatsMockDataSource.swift in Sources */,
 				C150C14F24333D0E000861D9 /* NotificationExtensions.swift in Sources */,
 				C150C14A24333C0D000861D9 /* Theme.swift in Sources */,
