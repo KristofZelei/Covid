@@ -64,8 +64,6 @@ extension Country {
 
 extension Array where Element == CountryStatViewModel {
     mutating func prioritizeCurrentLocale() {
-        makeFirstIf {
-            $0.regionCode == Locale.current.regionCode
-        }
+        makeFirstIf { $0.regionCode == Locale.current.regionCode }
     }
 }

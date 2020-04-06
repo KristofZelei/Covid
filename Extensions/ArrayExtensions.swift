@@ -17,6 +17,18 @@ extension Array {
             return
         }
     }
+    
+    mutating func sort<T: Comparable>(by keyPath: KeyPath<Element, T>, using compare: (T, T) -> Bool) {
+        sort { a, b in
+            let first = a[keyPath: keyPath]
+            let second = b[keyPath: keyPath]
+            return compare(first, second)
+        }
+    }
+       
+    mutating func sort<T: Comparable>(by keyPath: KeyPath<Element, T>) {
+        sort(by: keyPath, using: <)
+    }
 }
 
 extension Array where Element: AdditiveArithmetic {

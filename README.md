@@ -34,17 +34,33 @@ private enum Constants {
 ## Implementation
 The following code snippets showcase Swifty solutions and explain some key principles of the implementation.
 ### Sorting with key paths
-A great example of [the power of keypaths](https://www.swiftbysundell.com/articles/the-power-of-key-paths-in-swift/) in Swift is when you want to dynamically change which attribute to use in a `sort(by:)` function.
+A great example of [the power of keypaths](https://www.swiftbysundell.com/articles/the-power-of-key-paths-in-swift/) in Swift is when you want to dynamically change which attribute to use in a `sort(by:)` function. The following extension implements a great utility function for sorting an array of objects by a certain property:
+```swift
+extension Array {
+    mutating func sort<T: Comparable>(by keyPath: KeyPath<Element, T>, using compare: (T, T) -> Bool) {
+        sort { a, b in
+            let first = a[keyPath: keyPath]
+            let second = b[keyPath: keyPath]
+            return compare(first, second)
+        }
+    }
+}
+```
+Since operators are basically just special named functions, you can pass `>` to the `compare: (T,T) -> Bool` parameter as the comparison operator is just a function that returns a boolean from two comperable objects.  Using this function in our view controller makes the code more readable and eliminates the need of an unnecessary type (such as a SortOption enum) to determine the sorting logic:
+
 ```swift
 typealias SortOption = KeyPath<CountryStatViewModel, Int>
 
 private func sort(by option: SortOption) {
-    ...
+    let world = viewModels.compactMap { $0 as? WorldStatViewModel }
     var countries = viewModels.compactMap { $0 as? CountryStatViewModel }
-    countries.sort { $0[keyPath: option] > $1[keyPath: option] }
-    ...
+    countries.sort(by: option, using: >)
+    if option == \.active { countries.prioritizeCurrentLocale() }
+    viewModels = world + countries
+    tableView.reloadData()
 }
 ```
+Our `viewModels` array is just an array of `CovidStatViewModel` objects. We must filter the array to obtain the list of ViewModels that represent our country statistics data. We can then sort the countries based on the passed `SortOption` parameter, which is a `KeyPath` defining the property to sort by. Lastly, we make sure, that if the default sorting option was selected, the country of the user is placed on the top of the list. After this, we can update our ViewModels and reload the table view.
 ### Searching with fuse
 Fuzzy searching can highly improve user experience, there is nothing more frustrating when you have to type an exact substring match to find what you are searching for. [Fuse](https://github.com/krisk/fuse-swift) is a great Swift library that implements a fast approximate string matching algorithm which provides match ranges too.
 ```swift
@@ -190,4 +206,3 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 ## License
 
 Covid is available under the MIT license. See the LICENSE file for more info.
-

@@ -166,14 +166,11 @@ class CovidStatListViewController: UIViewController {
         tableView.reloadData()
     }
     
-    private func sort(by option: SortOption?) {
+    private func sort(by option: SortOption) {
         let world = viewModels.compactMap { $0 as? WorldStatViewModel }
         var countries = viewModels.compactMap { $0 as? CountryStatViewModel }
-        countries.sort {
-            guard let option = option else { return $0.active > $1.active }
-            return $0[keyPath: option] > $1[keyPath: option]
-        }
-        if option == nil { countries.prioritizeCurrentLocale() }
+        countries.sort(by: option, using: >)
+        if option == \.active { countries.prioritizeCurrentLocale() }
         viewModels = world + countries
         tableView.reloadData()
     }
@@ -233,11 +230,11 @@ extension CovidStatListViewController: UITableViewDataSource {
 extension CovidStatListViewController: WorldStatCellDelegate {
     func sortButtonTapped() {
         let controller = UIAlertController(title: "Sort by", message: nil, preferredStyle: .actionSheet)
-        let options: [(title: String, type: SortOption?)] = [
+        let options: [(title: String, type: SortOption)] = [
             ("Confirmed", \.confirmed),
             ("Deaths", \.deaths),
             ("Recovered", \.recovered),
-            ("Default (active)", nil)
+            ("Default (active)", \.active)
         ]
         for option in options {
             let action = UIAlertAction(title: option.title, style: .default, handler: { _ in
