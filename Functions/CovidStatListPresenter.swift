@@ -51,7 +51,7 @@ class CovidStatListPresenterImpl: CovidStatListPresenter {
                 countries.append(viewModel)
             }
             let world = WorldStatViewModel(from: response)
-            countries.sort { $0.active > $1.active }
+            countries.sort(by: \.active, using: >)
             countries.prioritizeCurrentLocale()
             DispatchQueue.main.async {
                 self.lastFetched = Date()

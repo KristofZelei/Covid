@@ -6,7 +6,7 @@
 //  Copyright © 2020. Foltányi Kolos. All rights reserved.
 //
 
-enum Country: String {
+enum Country: String, CaseIterable {
     case southAfrica = "south africa"
     case newZealand = "new zealand"
     case unitedKingdom = "united kingdom"
@@ -33,18 +33,5 @@ extension Country {
     
     var name: String {
         return formattedTokens.joined(separator: " ")
-    }
-    
-    static var allCases: [Country] {
-        return [
-            .argentina, .iceland, .portugal, .australia, .india, .romania,
-            .austria, .indonesia, .russia, .belgium, .iran, .serbia,
-            .bolivia, .iraq, .slovakia, .brazil, .ireland, .slovenia,
-            .canada, .israel, .china, .italy, .spain, .croatia,
-            .japan, .sweden, .luxembourg, .switzerland, .denmark, .mexico,
-            .turkey, .finland, .netherlands, .france , .ukraine, .germany,
-            .niger, .us, .greece, .norway, .hungary, .poland,
-            .southAfrica, .czechia, .newZealand, .unitedKingdom, .southKorea
-        ]
     }
 }
